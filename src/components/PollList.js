@@ -8,7 +8,6 @@ export const POLLS_QUERY = gql`
   query {
     polls {
       description
-      url
       id
       postedBy {
         name
