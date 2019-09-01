@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
-import { POLLS_QUERY } from "./PollList";
 import gql from "graphql-tag";
 
 const CREATE_POLL_MUTATION = gql`
@@ -30,14 +29,6 @@ export default ({ history }) => {
         mutation={CREATE_POLL_MUTATION}
         variables={{ description }}
         onCompleted={() => history.push("/")}
-        update={(store, { data: { createPoll: poll } }) => {
-          const data = store.readQuery({ query: POLLS_QUERY });
-          data.polls.unshift(poll);
-          store.writeQuery({
-            query: POLLS_QUERY,
-            data
-          });
-        }}
       >
         {createPollMutation => (
           <button onClick={createPollMutation}>Submit</button>

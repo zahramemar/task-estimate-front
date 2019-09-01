@@ -1,8 +1,8 @@
 import React from "react";
 import Poll from "./Poll";
-import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import { Link } from "react-router-dom";
+import { useSubscription, useQuery } from "@apollo/react-hooks";
 
 export const POLLS_QUERY = gql`
   query {
@@ -23,6 +23,14 @@ export const POLLS_QUERY = gql`
   }
 `;
 
+const POLL_SUBSCRIPTION = gql`
+  subscription NewPolls {
+    newPoll {
+      id
+    }
+  }
+`;
+
 const Polls = ({ polls }) => (
   <div>
     {polls.map(poll => (
@@ -37,13 +45,17 @@ const Polls = ({ polls }) => (
   </div>
 );
 
-export default () => (
-  <Query query={POLLS_QUERY}>
-    {({ loading, error, data }) => {
-      if (loading) return <div>Fetching</div>;
-      if (error) return <div>Error</div>;
+export default () => {
+  useSubscription(POLL_SUBSCRIPTION);
+  console.log("updating");
+  const { loading, error, data, refetch } = useQuery(POLLS_QUERY, {
+    fetchPolicy: "network-only",
+    partialRefetch: true
+  });
+  refetch();
 
-      return <Polls polls={data.polls} />;
-    }}
-  </Query>
-);
+  if (loading) return <div>Fetching</div>;
+  if (error) return <div>Error</div>;
+
+  return <Polls polls={data.polls} />;
+};
