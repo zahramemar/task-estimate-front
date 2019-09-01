@@ -47,11 +47,7 @@ const Polls = ({ polls }) => (
 
 export default () => {
   useSubscription(POLL_SUBSCRIPTION);
-  console.log("updating");
-  const { loading, error, data, refetch } = useQuery(POLLS_QUERY, {
-    fetchPolicy: "network-only",
-    partialRefetch: true
-  });
+  const { loading, error, data, refetch } = useQuery(POLLS_QUERY);
   refetch();
 
   if (loading) return <div>Fetching</div>;
