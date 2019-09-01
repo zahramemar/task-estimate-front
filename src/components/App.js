@@ -4,6 +4,7 @@ import Header from "./Header";
 import Login from "./Login";
 import PollList from "./PollList";
 import CreatePoll from "./CreatePoll";
+import ShowPoll from "./ShowPoll";
 
 const initialState = {
   login: !!localStorage.getItem("AUTH_TOKEN")
@@ -36,6 +37,7 @@ export default function App() {
             path="/login"
             render={() => <Login dispatch={dispatch} />}
           />
+          <Route exact path="/vote/:id" component={ShowPoll} />} />
         </Switch>
       </div>
     </div>

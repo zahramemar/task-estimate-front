@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import Poll from "./Poll";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import { Link } from "react-router-dom";
+
 export const POLLS_QUERY = gql`
-  {
+  query {
     polls {
       description
       url
@@ -12,6 +14,7 @@ export const POLLS_QUERY = gql`
         name
       }
       votes {
+        id
         dificulty
         user {
           name
@@ -20,34 +23,28 @@ export const POLLS_QUERY = gql`
     }
   }
 `;
-class PollList extends Component {
-  _updateCacheAfterCreatePoll = (store, createPoll, pollId) => {
-    const data = store.readQuery({ query: POLLS_QUERY });
 
-    const createdPoll = data.polls.find(poll => poll.id === pollId);
-    createdPoll.poll = createPoll.poll;
+const Polls = ({ polls }) => (
+  <div>
+    {polls.map(poll => (
+      <Link
+        key={poll.id}
+        to={`/vote/${poll.id}`}
+        className="ml1 no-underline black"
+      >
+        <Poll poll={poll} />
+      </Link>
+    ))}
+  </div>
+);
 
-    store.writeQuery({ query: POLLS_QUERY, data });
-  };
-  render() {
-    return (
-      <Query query={POLLS_QUERY}>
-        {({ loading, error, data }) => {
-          if (loading) return <div>Fetching</div>;
-          if (error) return <div>Error</div>;
+export default () => (
+  <Query query={POLLS_QUERY}>
+    {({ loading, error, data }) => {
+      if (loading) return <div>Fetching</div>;
+      if (error) return <div>Error</div>;
 
-          const pollsToRender = data.polls;
-
-          return (
-            <div>
-              {pollsToRender.map(poll => (
-                <Poll key={Poll.id} poll={poll} />
-              ))}
-            </div>
-          );
-        }}
-      </Query>
-    );
-  }
-}
-export default PollList;
+      return <Polls polls={data.polls} />;
+    }}
+  </Query>
+);

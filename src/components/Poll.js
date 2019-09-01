@@ -11,7 +11,9 @@ export default class Poll extends Component {
             votes:
             {this.props.poll && this.props.poll.votes.length > 0 ? (
               this.props.poll.votes.map(vote => (
-                <span key={vote.id}>{vote.dificulty} </span>
+                <span key={vote.id} className="ma1">
+                  {vote.dificulty}
+                </span>
               ))
             ) : (
               <span>not voted yet</span>
