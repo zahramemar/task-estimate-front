@@ -2,6 +2,8 @@ import React, { useReducer } from "react";
 import { Switch, Route } from "react-router-dom";
 import Header from "./Header";
 import Login from "./Login";
+import PollList from "./PollList";
+import CreatePoll from "./CreatePoll";
 
 const initialState = {
   login: !!localStorage.getItem("AUTH_TOKEN")
@@ -27,6 +29,8 @@ export default function App() {
       <Header isLogin={state.login} dispatch={dispatch} />
       <div className="ph3 pv1 background-gray">
         <Switch>
+          <Route exact path="/" component={PollList} />
+          <Route exact path="/create" component={CreatePoll} />
           <Route
             exact
             path="/login"
