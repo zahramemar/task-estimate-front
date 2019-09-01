@@ -26,7 +26,7 @@ export default withRouter(({ history, dispatch }) => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  async function confirm({ token }) {
+  async function doLogin({ token }) {
     localStorage.setItem("AUTH_TOKEN", token);
     dispatch({ type: token ? "login" : "logout" });
     history.push(`/`);
@@ -62,7 +62,7 @@ export default withRouter(({ history, dispatch }) => {
           mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
           variables={{ email, password, name }}
           onCompleted={data =>
-            confirm(login ? data.login : data.signup, history)
+            doLogin(login ? data.login : data.signup, history)
           }
         >
           {mutation => (
