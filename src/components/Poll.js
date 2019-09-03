@@ -5,7 +5,7 @@ export default ({ poll }) => {
     <div className="flex mt2 items-start">
       <div className="ml1">
         {poll ? <div>{poll.description}</div> : ""}
-
+        {/* 
         <div className="f6 lh-copy gray">
           votes:
           {poll && poll.votes.length > 0 ? (
@@ -17,7 +17,7 @@ export default ({ poll }) => {
           ) : (
             <span>not voted yet</span>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

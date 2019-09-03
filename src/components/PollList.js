@@ -37,7 +37,7 @@ const Polls = ({ polls }) => (
       <Link
         key={poll.id}
         to={`/vote/${poll.id}`}
-        className="ml1 no-underline black"
+        className="ml1 no-underline  link dim dark-blue"
       >
         <Poll poll={poll} />
       </Link>
